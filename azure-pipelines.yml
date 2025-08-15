@@ -9,7 +9,7 @@ variables:
   enableDeployment: 'false'
   # Replace these with your Azure service connection name and web app name when enabling CD
   azureServiceConnection: 'functionsc'
-  azureWebAppName: 'WEBAPP_NAME'
+  azureWebAppName: 'demofunctionsr'
 
 stages:
 - stage: Build
