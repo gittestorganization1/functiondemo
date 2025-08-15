@@ -62,10 +62,18 @@ stages:
             artifact: drop
 
           # AzureWebApp@1 requires an Azure service connection configured in your project.
-          - task: AzureWebApp@1
-            displayName: 'Deploy to Azure Web App'
+          # - task: AzureWebApp@1
+          #   displayName: 'Deploy to Azure Web App'
+          #   inputs:
+          #     azureSubscription: '$(azureServiceConnection)'
+          #     appName: '$(azureWebAppName)'
+          #     package: '$(Pipeline.Workspace)/drop'
+
+          - task: AzureFunctionApp@2
             inputs:
-              azureSubscription: '$(azureServiceConnection)'
+              connectedServiceNameARM: '$(azureServiceConnection)'
+              appType: 'functionAppLinux'
+              isFlexConsumption: true
               appName: '$(azureWebAppName)'
               package: '$(Pipeline.Workspace)/drop'
 
