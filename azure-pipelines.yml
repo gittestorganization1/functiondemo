@@ -50,7 +50,7 @@ stages:
   condition: and(succeeded(), eq(variables['enableDeployment'], 'true'))
   jobs:
   - deployment: DeployToAzure
-    displayName: 'Deploy to Azure Web App (placeholder)'
+    displayName: 'Deploy to Azure Function App demofunctionsr'
     environment: 'azure'
     pool:
       vmImage: 'ubuntu-latest'
