@@ -6,7 +6,7 @@ trigger:
 variables:
   pythonVersion: '3.12'
   # Set to 'true' in the pipeline variables or in a variable group to enable the CD stage
-  enableDeployment: 'false'
+  enableDeployment: 'true'
   # Replace these with your Azure service connection name and web app name when enabling CD
   azureServiceConnection: 'functionsc'
   azureWebAppName: 'demofunctionsr'
