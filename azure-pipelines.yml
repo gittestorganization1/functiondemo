@@ -8,7 +8,7 @@ variables:
   # Set to 'true' in the pipeline variables or in a variable group to enable the CD stage
   enableDeployment: 'false'
   # Replace these with your Azure service connection name and web app name when enabling CD
-  azureServiceConnection: 'SERVICE_CONNECTION_NAME'
+  azureServiceConnection: 'functionsc'
   azureWebAppName: 'WEBAPP_NAME'
 
 stages:
