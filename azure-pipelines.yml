@@ -1,8 +1,7 @@
 trigger:
   branches:
     include:
-      - main
-      - master
+      - none
 
 variables:
   pythonVersion: '3.12'
