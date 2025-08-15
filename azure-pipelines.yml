@@ -1,0 +1,78 @@
+trigger:
+  branches:
+    include:
+      - main
+      - master
+
+variables:
+  pythonVersion: '3.12'
+  # Set to 'true' in the pipeline variables or in a variable group to enable the CD stage
+  enableDeployment: 'false'
+  # Replace these with your Azure service connection name and web app name when enabling CD
+  azureServiceConnection: 'SERVICE_CONNECTION_NAME'
+  azureWebAppName: 'WEBAPP_NAME'
+
+stages:
+- stage: Build
+  displayName: 'CI'
+  jobs:
+  - job: BuildJob
+    displayName: 'Run tests and publish artifact'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(pythonVersion)'
+        addToPath: true
+
+    - script: |
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+      displayName: 'Install dependencies'
+
+    - script: |
+        python -c "import sys; print('Python', sys.version)"
+        python run.py
+      displayName: 'Run demo smoke test'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)'
+        artifact: 'drop'
+        publishLocation: 'pipeline'
+
+- stage: Deploy
+  displayName: 'CD'
+  dependsOn: Build
+  # Only run when deployment is enabled (set variable enableDeployment to 'true')
+  condition: and(succeeded(), eq(variables['enableDeployment'], 'true'))
+  jobs:
+  - deployment: DeployToAzure
+    displayName: 'Deploy to Azure Web App (placeholder)'
+    environment: 'azure'
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+
+          # AzureWebApp@1 requires an Azure service connection configured in your project.
+          - task: AzureWebApp@1
+            displayName: 'Deploy to Azure Web App'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              appName: '$(azureWebAppName)'
+              package: '$(Pipeline.Workspace)/drop'
+
+# Notes:
+# - To enable continuous deployment, set variable `enableDeployment` to 'true' in the pipeline
+#   or define it in a variable group. Replace `azureServiceConnection` and `azureWebAppName` with
+#   values from your Azure DevOps project (Service connection name) and Azure Web App.
+# - If you deploy to a different target (VM, Function App, container registry), replace the
+#   `AzureWebApp@1` task with the appropriate deployment task or script.
