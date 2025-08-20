@@ -3,7 +3,7 @@ import azure.functions as func
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('HIDevOps function processed a request.')
+    logging.info('DevOps function processed a request.')
 
     name = req.params.get('name')
     if not name:
@@ -20,5 +20,5 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             status_code=400
         )
 
-    greeting = f"Hi, DevOps team!"
+    greeting = f"DevOps says hi, {name}!"
     return func.HttpResponse(greeting, status_code=200, mimetype="text/plain")
