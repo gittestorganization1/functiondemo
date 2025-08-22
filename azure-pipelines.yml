@@ -32,10 +32,7 @@ stages:
         python -m pip install -r requirements.txt
       displayName: 'Install dependencies'
 
-    # - script: |
-    #     python -c "import sys; print('Python', sys.version)"
-    #     python run.py
-    #   displayName: 'Run demo smoke test'
+
 
     - task: PublishPipelineArtifact@1
       inputs:
@@ -61,13 +58,7 @@ stages:
           - download: current
             artifact: drop
 
-          # AzureWebApp@1 requires an Azure service connection configured in your project.
-          # - task: AzureWebApp@1
-          #   displayName: 'Deploy to Azure Web App'
-          #   inputs:
-          #     azureSubscription: '$(azureServiceConnection)'
-          #     appName: '$(azureWebAppName)'
-          #     package: '$(Pipeline.Workspace)/drop'
+
 
           - task: AzureFunctionApp@2
             inputs:
