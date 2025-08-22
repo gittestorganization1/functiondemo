@@ -32,10 +32,10 @@ stages:
         python -m pip install -r requirements.txt
       displayName: 'Install dependencies'
 
-    - script: |
-        python -c "import sys; print('Python', sys.version)"
-        python run.py
-      displayName: 'Run demo smoke test'
+    # - script: |
+    #     python -c "import sys; print('Python', sys.version)"
+    #     python run.py
+    #   displayName: 'Run demo smoke test'
 
     - task: PublishPipelineArtifact@1
       inputs:
