@@ -20,5 +20,5 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             status_code=400
         )
 
-    greeting = f"Hello, {name}!"
+    greeting = f"Hello, DevOps team , welcome to Devops Learning Series!"
     return func.HttpResponse(greeting, status_code=200, mimetype="text/plain")
